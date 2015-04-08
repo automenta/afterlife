@@ -80,9 +80,9 @@ npm start
 
 Alternate method via npm:
 
-```npm install ghost
-```
-npm module documentation: [Ghost as an NPM module](https://github.com/TryGhost/Ghost/wiki/Using-Ghost-as-an-npm-module).
+```npm install ghost```
+
+[Ghost as an NPM module](https://github.com/TryGhost/Ghost/wiki/Using-Ghost-as-an-npm-module).
 
 More installation documentation: [install docs](http://support.ghost.org/installation/)
 
