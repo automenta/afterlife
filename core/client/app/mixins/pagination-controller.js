@@ -53,7 +53,10 @@ var PaginationControllerMixin = Ember.Mixin.create({
 
         resetPagination: function () {
             this.set('paginationSettings.page', 1);
-            this.store.setMetaDataFor('tag', {pagination: undefined});
+            if (this.store)
+                this.store.setMetaDataFor('tag', {pagination: undefined});
+            else
+                console.error(this + ' missing .store');
         }
     }
 });

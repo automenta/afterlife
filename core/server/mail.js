@@ -14,15 +14,20 @@ function GhostMailer(opts) {
 GhostMailer.prototype.init = function () {
     var self = this;
     self.state = {};
-    if (config.mail && config.mail.transport) {
+
+    if (!config.mail) {
+        this.emailDisabled = true;
+        return Promise.resolve();
+    }
+    else if (config.mail.transport) {
         this.createTransport();
         return Promise.resolve();
     }
-
-    self.transport = nodemailer.createTransport('direct');
-    self.state.usingDirect = true;
-
-    return Promise.resolve();
+    else {
+        self.transport = nodemailer.createTransport('direct');
+        self.state.usingDirect = true;
+        return Promise.resolve();
+    }
 };
 
 GhostMailer.prototype.createTransport = function () {

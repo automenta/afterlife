@@ -49,6 +49,7 @@ sendInviteEmail = function sendInviteEmail(user) {
 
         emailData.resetLink = baseUrl.replace(/\/$/, '') + '/ghost/signup/' + globalUtils.encodeBase64URLsafe(resetToken) + '/';
 
+            console.error('GENERATE CONTENT', emaildata);
         return mail.generateContent({data: emailData, template: 'invite-user'});
     }).then(function (emailContent) {
         var payload = {
@@ -63,6 +64,7 @@ sendInviteEmail = function sendInviteEmail(user) {
             }]
         };
 
+            console.error('MAIL SEND', payload);
         return mail.send(payload, {context: {internal: true}});
     });
 };

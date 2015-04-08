@@ -112,16 +112,6 @@ function builtFilesExist() {
 // This is also a "one central repository" of adding startup notifications in case
 // in the future apps will want to hook into here
 function initNotifications() {
-    if (mailer.state && mailer.state.usingDirect) {
-        api.notifications.add({notifications: [{
-            type: 'info',
-            message: [
-                'Ghost is attempting to use a direct method to send e-mail.',
-                'It is recommended that you explicitly configure an e-mail service.',
-                'See <a href=\'http://support.ghost.org/mail\' target=\'_blank\'>http://support.ghost.org/mail</a> for instructions'
-            ].join(' ')
-        }]}, {context: {internal: true}});
-    }
     if (mailer.state && mailer.state.emailDisabled) {
         api.notifications.add({notifications: [{
             type: 'warn',
@@ -131,6 +121,17 @@ function initNotifications() {
             ].join(' ')
         }]}, {context: {internal: true}});
     }
+    else if (mailer.state && mailer.state.usingDirect) {
+        api.notifications.add({notifications: [{
+            type: 'info',
+            message: [
+                'Ghost is attempting to use a direct method to send e-mail.',
+                'It is recommended that you explicitly configure an e-mail service.',
+                'See <a href=\'http://support.ghost.org/mail\' target=\'_blank\'>http://support.ghost.org/mail</a> for instructions'
+            ].join(' ')
+        }]}, {context: {internal: true}});
+    }
+
 }
 
 // ## Initializes the ghost application.
