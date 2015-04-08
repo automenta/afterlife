@@ -696,24 +696,24 @@ describe('Config', function () {
             // Future tests: This is important here!
             resetEnvironment();
         });
-
-        it('displays warning when updateCheck exists and is falsy', function () {
-            config.set({
-                updateCheck: undefined
-            });
-            // Run the test code
-            config.checkDeprecated();
-
-            logStub.calledOnce.should.be.true;
-
-            logStub.calledWithMatch(null, 'updateCheck').should.be.false;
-            logStub.calledWithMatch('', 'updateCheck').should.be.true;
-            logStub.calledWithMatch(sinon.match.string, 'updateCheck').should.be.true;
-            logStub.calledWithMatch(sinon.match.number, 'updateCheck').should.be.false;
-
-            // Future tests: This is important here!
-            resetEnvironment();
-        });
+        //
+        //it('displays warning when updateCheck exists and is falsy', function () {
+        //    config.set({
+        //        updateCheck: undefined
+        //    });
+        //    // Run the test code
+        //    config.checkDeprecated();
+        //
+        //    logStub.calledOnce.should.be.true;
+        //
+        //    logStub.calledWithMatch(null, 'updateCheck').should.be.false;
+        //    logStub.calledWithMatch('', 'updateCheck').should.be.true;
+        //    logStub.calledWithMatch(sinon.match.string, 'updateCheck').should.be.true;
+        //    logStub.calledWithMatch(sinon.match.number, 'updateCheck').should.be.false;
+        //
+        //    // Future tests: This is important here!
+        //    resetEnvironment();
+        //});
 
         it('displays warning when mail.fromaddress exists and is truthy', function () {
             config.set({
@@ -735,24 +735,24 @@ describe('Config', function () {
             resetEnvironment();
         });
 
-        it('displays warning when mail.fromaddress exists and is falsy', function () {
-            config.set({
-                mail: {
-                    fromaddress: undefined
-                }
-            });
-            // Run the test code
-            config.checkDeprecated();
-
-            logStub.calledOnce.should.be.true;
-            logStub.calledWithMatch(null, 'mail.fromaddress').should.be.false;
-            logStub.calledWithMatch('', 'mail.fromaddress').should.be.true;
-            logStub.calledWithMatch(sinon.match.string, 'mail.fromaddress').should.be.true;
-            logStub.calledWithMatch(sinon.match.number, 'mail.fromaddress').should.be.false;
-
-            // Future tests: This is important here!
-            resetEnvironment();
-        });
+        //it('displays warning when mail.fromaddress exists and is falsy', function () {
+        //    config.set({
+        //        mail: {
+        //            fromaddress: undefined
+        //        }
+        //    });
+        //    // Run the test code
+        //    config.checkDeprecated();
+        //
+        //    logStub.calledOnce.should.be.true;
+        //    logStub.calledWithMatch(null, 'mail.fromaddress').should.be.false;
+        //    logStub.calledWithMatch('', 'mail.fromaddress').should.be.true;
+        //    logStub.calledWithMatch(sinon.match.string, 'mail.fromaddress').should.be.true;
+        //    logStub.calledWithMatch(sinon.match.number, 'mail.fromaddress').should.be.false;
+        //
+        //    // Future tests: This is important here!
+        //    resetEnvironment();
+        //});
 
         it('doesn\'t display warning when only part of a deprecated option is set', function () {
             config.set({

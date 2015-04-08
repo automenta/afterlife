@@ -48,6 +48,8 @@ var _              = require('lodash'),
         //
         // Find all of the task which start with `grunt-` and load them, rather than explicitly declaring them all
         require('matchdep').filterDev(['grunt-*', '!grunt-cli']).forEach(grunt.loadNpmTasks);
+        
+        grunt.loadNpmTasks('grunt-parallel');
 
         var cfg = {
             // #### Common paths used by tasks
@@ -281,6 +283,10 @@ var _              = require('lodash'),
                             case 'prod':
                                 return emberPath + ' build --environment=production --silent';
 
+                            //combines the two into one step
+                            case 'initdev':
+                                return 'npm install && ' + emberPath + ' build';
+
                             case 'dev':
                                 return emberPath + ' build';
 
@@ -299,7 +305,7 @@ var _              = require('lodash'),
                 // Used as part of `grunt init`. See the section on [Building Assets](#building%20assets) for more
                 // information.
                 bower: {
-                    command: path.resolve(cwd + '/node_modules/.bin/bower --allow-root install'),
+                    command: path.resolve(cwd + '/node_modules/.bin/bower install'), //--allow-root
                     options: {
                         stdout: true,
                         stdin: false
@@ -308,7 +314,7 @@ var _              = require('lodash'),
 
                 test: {
                     command: function (test) {
-                        return 'node ' + mochaPath  + ' --timeout=15000 --ui=bdd --reporter=spec core/test/' + test;
+                        return 'node ' + mochaPath  + ' --timeout=8000 --ui=bdd --reporter=spec core/test/' + test;
                     }
                 },
 
@@ -390,7 +396,7 @@ var _              = require('lodash'),
             compress: {
                 release: {
                     options: {
-                        archive: '<%= paths.releaseDist %>/Ghost-<%= pkg.version %>.zip'
+                        archive: '<%= paths.releaseDist %>/afterlife-<%= pkg.version %>.zip'
                     },
                     expand: true,
                     cwd: '<%= paths.releaseBuild %>/',
@@ -419,15 +425,26 @@ var _              = require('lodash'),
                 }
             },
 
+            parallel: {
+                init: {
+                    options: { grunt: true  },
+                    tasks: ['shell:ember:init', 'shell:bower']
+                },
+                initdev: {
+                    options: { grunt: true },
+                    tasks: ['shell:ember:initdev', 'shell:bower', 'assets']
+                }
+            }
+
             // ### grunt-update-submodules
             // Grunt task to update git submodules
-            update_submodules: {
+            /*update_submodules: {
                 default: {
                     options: {
                         params: '--init'
                     }
                 }
-            }
+            }*/
         };
 
         // Load the configuration
@@ -588,7 +605,7 @@ var _              = require('lodash'),
         // details of each of the test suites.
         //
         grunt.registerTask('test-all', 'Run tests and lint code',
-            ['lint', 'test-routes', 'test-module', 'test-unit', 'test-integration', 'shell:ember:test', 'test-functional']);
+            ['test-unit', 'test-integration', 'shell:ember:test', 'test-functional', 'test-routes', 'test-module', 'lint' ]);
 
         // ### Lint
         //
@@ -757,7 +774,7 @@ var _              = require('lodash'),
         // Only builds if the contributors template does not exist.
         // To force a build regardless, supply the --force option.
         //     `grunt buildAboutPage --force`
-        grunt.registerTask('buildAboutPage', 'Compile assets for the About Ghost page', function () {
+        /*grunt.registerTask('buildAboutPage', 'Compile assets for the About Ghost page', function () {
             var done = this.async(),
                 templatePath = 'core/client/app/templates/-contributors.hbs',
                 imagePath = 'core/client/public/assets/img/contributors/',
@@ -824,7 +841,7 @@ var _              = require('lodash'),
 
                 done(false);
             });
-        });
+        });*/
 
         // ## Building assets
         //
@@ -855,13 +872,17 @@ var _              = require('lodash'),
         //
         // `bower` does have some quirks, such as not running as root. If you have problems please try running
         // `grunt init --verbose` to see if there are any errors.
-        grunt.registerTask('init', 'Prepare the project for development',
-            ['shell:ember:init', 'shell:bower', 'update_submodules', 'assets', 'default']);
+        grunt.registerTask('initprod', 'Prepare the project for development',
+            ['parallel:init', /*'update_submodules',*/ 'assets', 'prod']);
+
+
+        grunt.registerTask('init', 'Prepare the project for development in development mode (fast)',
+            ['parallel:initdev' ]);
 
         // ### Basic Asset Building
         // Builds and moves necessary client assets. Prod additionally builds the ember app.
         grunt.registerTask('assets', 'Basic asset building & moving',
-            ['clean:tmp', 'buildAboutPage', 'copy:jquery']);
+            ['clean:tmp', 'copy:jquery']);
 
         // ### Default asset build
         // `grunt` - default grunt task
@@ -902,7 +923,7 @@ var _              = require('lodash'),
             ' - Copy files to release-folder/#/#{version} directory\n' +
             ' - Clean out unnecessary files (travis, .git*, etc)\n' +
             ' - Zip files in release-folder to dist-folder/#{version} directory',
-            ['init', 'shell:ember:prod', 'uglify:release', 'clean:release', 'copy:release', 'shell:shrinkwrap', 'compress:release']);
+            ['initprod', 'uglify:release', 'clean:release', 'copy:release', 'shell:shrinkwrap', 'compress:release']);
     };
 
 // Export the configuration

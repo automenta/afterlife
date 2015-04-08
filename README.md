@@ -17,10 +17,10 @@ The latest **Node v0.10.x** release is recommended.
 Ghost is also compatible with **Node v0.12** and **io.js v1.2**, but please note that these versions are more likely to run into installation problems. Please use the [forum](https://ghost.org/forum/installation/) for help.
 
 1. Download the latest release
-1. Unzip in the location you want to install
-1. Fire up a terminal
+1. Unzip in the install location
+1. In terminal:
 1. `npm install --production`
-1. Start Ghost!
+1. Start!
     - Local environment: `npm start`
     - On a server: `npm start --production`
 1. `http://localhost:2368/ghost` :tada:
@@ -46,45 +46,35 @@ git clone git://github.com/automenta/afterlife.git
 cd afterlife
 ```
 
-Install grunt:
-
+**Install grunt**
 ```bash
-npm install -g grunt-cli
+npm install -g grunt-cli #may need prefixed with: sudo
 ```
 
-Install Ghost. If you're running locally, use [master](https://github.com/TryGhost/Ghost/tree/master). For production, use [stable](https://github.com/TryGhost/Ghost/tree/stable). :no_entry_sign::rocket::microscope:
+**Install dependencies**
+If you're running locally, use [master](https://github.com/TryGhost/Ghost/tree/master). For production, use [stable](https://github.com/TryGhost/Ghost/tree/stable). :no_entry_sign::rocket::microscope:
 
 ```bash
-npm install ; npm ddp #install and de-duplicate
+./al install
 ```
 
-Build:
+**Build (development mode)**
 
 ```bash
-grunt init
+./al init
 ```
 
-(Optional) Minify:
+**Build (production mode)**
 
 ```bash
-grunt prod
+./al initprod
 ```
 
-Run:
+**Run web server**
 
 ```bash
-npm start
-
-## running production? Add --production
+./al web
 ```
-
-Alternate method via npm:
-
-```npm install ghost```
-
-[Ghost as an NPM module](https://github.com/TryGhost/Ghost/wiki/Using-Ghost-as-an-npm-module).
-
-More installation documentation: [install docs](http://support.ghost.org/installation/)
 
 
 # Deploying
@@ -92,17 +82,21 @@ More installation documentation: [install docs](http://support.ghost.org/install
 [Other options](http://support.ghost.org/deploying-ghost/)
 
 
-# Staying Up to Date
+# News
 
-When a new version of Ghost comes out, you'll want to look over these [upgrade instructions](http://support.ghost.org/how-to-upgrade/) for what to do next.
+When a new version is released, review [upgrade instructions](http://support.ghost.org/how-to-upgrade/) for what to do next.
 
-You can talk to other Ghost users on [our forums](https://ghost.org/forum) or chat with Ghost developers on IRC. We're on `irc.freenode.net`, in the `#Ghost` channel. We have a public meeting every Tuesday at 5:30pm London time.
+Talk to other users on [our forums](https://ghost.org/forum) or chat with Ghost developers on IRC. We're on `irc.freenode.net`, in the `#Ghost` channel. We have a public meeting every Tuesday at 5:30pm London time.
 
 New releases are announced on the [dev blog](http://dev.ghost.org/tag/releases/). You can subscribe by email or follow [@TryGhost_Dev](https://twitter.com/tryghost_dev) on Twitter, if you prefer your updates bite-sized and facetious.
 
-:saxophone::turtle:
+
 
 
 # Copyright & License
 
-Copyright (c) 2013-2015 Ghost Foundation - Released under the [MIT license](LICENSE).
+Released via the [AGPL license](LICENSE).
+
+ * Copyright (c) 2013-2015 Ghost Foundation
+ * Copyright (c) 2015-... SomeOtherFoundations
+
